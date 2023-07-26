@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dual3dc0gxpjp"]
+[gd_scene load_steps=23 format=3 uid="uid://dual3dc0gxpjp"]
 
 [ext_resource type="PackedScene" uid="uid://jayx3e6gm7cf" path="res://scenes/player.tscn" id="1_2rr8g"]
 [ext_resource type="Texture2D" uid="uid://hd3vhrtmqknp" path="res://sprites/timer.png" id="1_gd0he"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://dgsirlu7hhjk5" path="res://sounds/tick.wav" id="11_10xe3"]
 [ext_resource type="AudioStream" uid="uid://dkhkfia5uwvd" path="res://sounds/tock.wav" id="12_acfbc"]
 [ext_resource type="AudioStream" uid="uid://urwlg3fktkk" path="res://sounds/clock.wav" id="13_ib7um"]
+[ext_resource type="AudioStream" uid="uid://bxwm33j3pjm4w" path="res://sounds/music.mp3" id="15_ibhxh"]
 
 [sub_resource type="Environment" id="Environment_rrrmm"]
 background_mode = 3
@@ -144,3 +145,8 @@ base_db = -12.0
 script = ExtResource("3_urpp0")
 sounds = Array[Resource]([ExtResource("11_10xe3"), ExtResource("12_acfbc"), ExtResource("13_ib7um")])
 base_db = -8.0
+
+[node name="music_player" type="AudioStreamPlayer" parent="viewport_container/viewport"]
+stream = ExtResource("15_ibhxh")
+volume_db = -12.0
+autoplay = true

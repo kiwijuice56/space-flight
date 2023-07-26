@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 const GRAVITY: float = 4.2
 
+signal landed
 
 func _physics_process(delta: float) -> void:
 	$engine_particles.emitting = velocity.y < 0
@@ -18,9 +19,14 @@ func _physics_process(delta: float) -> void:
 	
 	if not was_on_floor and is_on_floor():
 		$thud_sound_spawner.play_sound()
+		landed.emit()
+
+func takeoff(boost: float) -> void:
+	%player.velocity.y -= boost
+	$blast_sound_spawner.play_sound()
 
 func shake() -> void:
 	$animation_player.play("jingle")
 
 func time_to_speed(time: int) -> float:
-	return 1024 * pow(max(1.0, float(time)), -0.2)
+	return 1500 * pow(max(1.0, float(time)), -0.2)

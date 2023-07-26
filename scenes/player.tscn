@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://jayx3e6gm7cf"]
+[gd_scene load_steps=17 format=3 uid="uid://jayx3e6gm7cf"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_87j1t"]
 [ext_resource type="Texture2D" uid="uid://dlm4mkbs4ahs5" path="res://sprites/spaceship.png" id="2_fx7ny"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://by3bws4ftopyt" path="res://sounds/rocket.mp3" id="4_evgyy"]
 [ext_resource type="Script" path="res://scripts/sound_spawner.gd" id="5_knqap"]
 [ext_resource type="AudioStream" uid="uid://b4vowaxc0g8ov" path="res://sounds/thud.wav" id="6_do7ug"]
+[ext_resource type="AudioStream" uid="uid://cghjec0204bsi" path="res://sounds/blast.wav" id="7_hcghu"]
 
 [sub_resource type="Gradient" id="Gradient_xitfq"]
 offsets = PackedFloat32Array(0, 0.0738916, 0.26601, 0.458128, 0.596059, 0.748768, 1)
@@ -112,3 +113,8 @@ autoplay = true
 script = ExtResource("5_knqap")
 sounds = Array[Resource]([ExtResource("6_do7ug")])
 base_db = -6.0
+
+[node name="blast_sound_spawner" type="Node" parent="."]
+script = ExtResource("5_knqap")
+sounds = Array[Resource]([ExtResource("7_hcghu")])
+base_db = -24.0
