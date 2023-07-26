@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://jayx3e6gm7cf"]
+[gd_scene load_steps=13 format=3 uid="uid://jayx3e6gm7cf"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_87j1t"]
 [ext_resource type="Texture2D" uid="uid://dlm4mkbs4ahs5" path="res://sprites/spaceship.png" id="2_fx7ny"]
@@ -33,21 +33,6 @@ scale_min = 0.25
 scale_curve = SubResource("CurveTexture_fkjua")
 color_ramp = SubResource("GradientTexture1D_e2cnn")
 
-[sub_resource type="Animation" id="Animation_r0h1u"]
-resource_name = "jingle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [-1.5708, -1.74533, -1.48353, -1.6057, -1.5708]
-}
-
 [sub_resource type="Animation" id="Animation_q8s1k"]
 length = 0.001
 tracks/0/type = "value"
@@ -63,20 +48,36 @@ tracks/0/keys = {
 "values": [-1.5708]
 }
 
+[sub_resource type="Animation" id="Animation_r0h1u"]
+resource_name = "jingle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-1.5708, -1.74533, -1.48353, -1.6057, -1.5708]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tslam"]
 _data = {
 "RESET": SubResource("Animation_q8s1k"),
 "jingle": SubResource("Animation_r0h1u")
 }
 
-[node name="player" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdfey"]
+
+[node name="player" type="CharacterBody2D"]
 rotation = -1.5708
 script = ExtResource("1_87j1t")
 
 [node name="engine_particles" type="GPUParticles2D" parent="."]
 position = Vector2(-13, 0)
-emitting = false
-amount = 128
+amount = 256
 process_material = SubResource("ParticleProcessMaterial_m5af1")
 texture = ExtResource("3_auxy0")
 
@@ -89,3 +90,12 @@ speed_scale = 5.0
 libraries = {
 "": SubResource("AnimationLibrary_tslam")
 }
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gdfey")
+
+[node name="camera" type="Camera2D" parent="."]
+limit_bottom = 270
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0

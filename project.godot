@@ -18,7 +18,7 @@ config/icon="res://etc/cool.png"
 [display]
 
 window/size/viewport_width=400
-window/size/viewport_height=270
+window/size/viewport_height=400
 window/size/always_on_top=true
 window/stretch/mode="viewport"
 

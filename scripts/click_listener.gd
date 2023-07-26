@@ -1,5 +1,4 @@
-# Listens for input and runs the game... this is basically the giant game script...
-# Sorry :(.
+# Listens for input and runs challenges.
 class_name ClickListener
 extends Node
 
@@ -7,11 +6,11 @@ extends Node
 const LETTER_LABEL: PackedScene = preload("res://scenes/letter.scn")
 
 # Animation constants.
-const CENTER: Vector2 = Vector2(193, 117)
+const CENTER: Vector2 = Vector2(193, 200)
 const LETTER_LENGTH: int = 21
 const ANIM_LENGTH: float = 0.05
 
-# The string of letters to be typed by the player
+# The string of letters to be typed by the player.
 var to_type: String
 var seconds_elapsed: int = 0
 
@@ -22,7 +21,6 @@ func _ready() -> void:
 	$second_clock.timeout.connect(_on_second_passed)
 	
 	set_process_input(false)
-	start_challenge()
 
 func _input(event: InputEvent) -> void:
 	# Prevent long presses from being picked up as another input.
@@ -52,18 +50,22 @@ func _on_second_passed() -> void:
 	%time_label.text = str(min(99, seconds_elapsed))
 	$clock_sound_spawner.play_sound()
 
-func start_challenge() -> void:
+func run_challenge(sentence: String) -> int:
 	%time_label.text = "0"
 	$second_clock.start()
 	
 	seconds_elapsed = 0
-	to_type = "appledogcatpayattention"
+	to_type = sentence
 	set_up_letters()
 	set_process_input(true)
 	
 	await challenge_complete
 	
+	set_process_input(false)
+	
 	$second_clock.stop()
+	
+	return seconds_elapsed
 
 func set_up_letters() -> void:
 	for i in range(len(to_type)):
