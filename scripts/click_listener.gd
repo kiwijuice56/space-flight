@@ -86,7 +86,7 @@ func shift_letters() -> void:
 	
 	# Move the first letter down to the rocket
 	var tween: Tween = get_tree().create_tween()
-	tween.tween_property(letter_to_remove, "position:y", 200, ANIM_LENGTH)
+	tween.tween_property(letter_to_remove, "position:y", 350, ANIM_LENGTH)
 	tween.parallel().tween_property(letter_to_remove, "scale", Vector2(), ANIM_LENGTH)
 	
 	# Shift all letters to the left.
