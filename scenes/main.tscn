@@ -1,7 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://dual3dc0gxpjp"]
+[gd_scene load_steps=16 format=3 uid="uid://dual3dc0gxpjp"]
 
 [ext_resource type="PackedScene" uid="uid://jayx3e6gm7cf" path="res://scenes/player.tscn" id="1_2rr8g"]
+[ext_resource type="Texture2D" uid="uid://hd3vhrtmqknp" path="res://sprites/timer.png" id="1_gd0he"]
+[ext_resource type="FontVariation" uid="uid://d3mdy4vykc7om" path="res://font/main_font.tres" id="2_ahav6"]
 [ext_resource type="Script" path="res://scripts/click_listener.gd" id="2_q3q52"]
+[ext_resource type="Script" path="res://scripts/sound_spawner.gd" id="3_urpp0"]
+[ext_resource type="AudioStream" uid="uid://bosl4w2ke0t6l" path="res://sounds/clicky1.wav" id="4_kqxgw"]
+[ext_resource type="AudioStream" uid="uid://f00yscrefpwc" path="res://sounds/clicky2.wav" id="5_sjim3"]
+[ext_resource type="AudioStream" uid="uid://d10djxns4nnlp" path="res://sounds/clicky3.wav" id="6_3farc"]
+[ext_resource type="AudioStream" uid="uid://btsjwed1smp0g" path="res://sounds/fuel.wav" id="7_i1nqh"]
+[ext_resource type="AudioStream" uid="uid://0mar58wip0yt" path="res://sounds/error.wav" id="8_72crm"]
+[ext_resource type="AudioStream" uid="uid://dgsirlu7hhjk5" path="res://sounds/tick.wav" id="11_10xe3"]
+[ext_resource type="AudioStream" uid="uid://dkhkfia5uwvd" path="res://sounds/tock.wav" id="12_acfbc"]
+[ext_resource type="AudioStream" uid="uid://urwlg3fktkk" path="res://sounds/clock.wav" id="13_ib7um"]
 
 [sub_resource type="Environment" id="Environment_rrrmm"]
 background_mode = 3
@@ -35,6 +46,26 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="clock" type="TextureRect" parent="viewport_container/ui_layer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_gd0he")
+stretch_mode = 2
+
+[node name="time_label" type="Label" parent="viewport_container/ui_layer/clock"]
+unique_name_in_owner = true
+offset_left = 36.0
+offset_top = 40.0
+offset_right = 56.0
+offset_bottom = 66.0
+theme_override_fonts/font = ExtResource("2_ahav6")
+text = "0"
+horizontal_alignment = 1
+
 [node name="viewport" type="SubViewport" parent="viewport_container"]
 world_3d = SubResource("World3D_2573v")
 handle_input_locally = false
@@ -53,3 +84,24 @@ script = ExtResource("2_q3q52")
 
 [node name="error_delay" type="Timer" parent="viewport_container/viewport/click_listener"]
 one_shot = true
+
+[node name="second_clock" type="Timer" parent="viewport_container/viewport/click_listener"]
+
+[node name="clicky_sound_spawner" type="Node" parent="viewport_container/viewport/click_listener"]
+script = ExtResource("3_urpp0")
+sounds = Array[Resource]([ExtResource("4_kqxgw"), ExtResource("5_sjim3"), ExtResource("6_3farc")])
+
+[node name="fuel_sound_spawner" type="Node" parent="viewport_container/viewport/click_listener"]
+script = ExtResource("3_urpp0")
+sounds = Array[Resource]([ExtResource("7_i1nqh")])
+base_db = -16.0
+
+[node name="error_sound_spawner" type="Node" parent="viewport_container/viewport/click_listener"]
+script = ExtResource("3_urpp0")
+sounds = Array[Resource]([ExtResource("8_72crm")])
+base_db = -12.0
+
+[node name="clock_sound_spawner" type="Node" parent="viewport_container/viewport/click_listener"]
+script = ExtResource("3_urpp0")
+sounds = Array[Resource]([ExtResource("11_10xe3"), ExtResource("12_acfbc"), ExtResource("13_ib7um")])
+base_db = -8.0

@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://d3mdy4vykc7om"]
+
+[ext_resource type="FontFile" uid="uid://c4326l65yupl7" path="res://font/roboto_mono.ttf" id="1_2srca"]
+
+[resource]
+base_font = ExtResource("1_2srca")
