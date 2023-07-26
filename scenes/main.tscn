@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://dual3dc0gxpjp"]
+
+[ext_resource type="PackedScene" uid="uid://jayx3e6gm7cf" path="res://scenes/player.tscn" id="1_2rr8g"]
+[ext_resource type="Script" path="res://scripts/click_listener.gd" id="2_q3q52"]
+
+[sub_resource type="Environment" id="Environment_rrrmm"]
+background_mode = 3
+glow_enabled = true
+glow_strength = 2.0
+glow_bloom = 0.08
+glow_blend_mode = 4
+glow_map_strength = 0.15
+adjustment_enabled = true
+adjustment_saturation = 1.5
+
+[sub_resource type="World3D" id="World3D_2573v"]
+environment = SubResource("Environment_rrrmm")
+
+[node name="main" type="Node2D"]
+
+[node name="viewport_container" type="SubViewportContainer" parent="."]
+custom_minimum_size = Vector2(400, 270)
+offset_right = 400.0
+offset_bottom = 270.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="ui_layer" type="CanvasLayer" parent="viewport_container"]
+
+[node name="letter_holder" type="Control" parent="viewport_container/ui_layer"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="viewport" type="SubViewport" parent="viewport_container"]
+world_3d = SubResource("World3D_2573v")
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(400, 270)
+render_target_update_mode = 4
+
+[node name="player" parent="viewport_container/viewport" instance=ExtResource("1_2rr8g")]
+unique_name_in_owner = true
+position = Vector2(200, 200)
+
+[node name="click_listener" type="Node" parent="viewport_container/viewport"]
+script = ExtResource("2_q3q52")
+
+[node name="challenge_length" type="Timer" parent="viewport_container/viewport/click_listener"]
+
+[node name="error_delay" type="Timer" parent="viewport_container/viewport/click_listener"]
+one_shot = true

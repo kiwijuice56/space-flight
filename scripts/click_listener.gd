@@ -1,0 +1,70 @@
+class_name ClickListener
+extends Node
+
+# The label that shows what letter to press.
+const LETTER_LABEL: PackedScene = preload("res://scenes/letter.scn")
+
+# Animation constants.
+const CENTER: Vector2 = Vector2(193, 117)
+const LETTER_LENGTH: int = 21
+const ANIM_LENGTH: float = 0.05
+
+# The string of letters to be typed by the player
+var to_type: String
+
+func _ready() -> void:
+	set_process_input(false)
+	
+	start_challenge()
+
+func _input(event: InputEvent) -> void:
+	# A small delay prevents letter mashing.
+	if not $error_delay.is_stopped():
+		return
+	# Prevent long presses from being picked up as another input.
+	if not (event.is_pressed() and not event.is_echo()):
+		return
+	# Detect letter presses.
+	if "unicode" in event:
+		if char(event.unicode) == to_type.substr(0, 1):
+			# Chop off the first letter.
+			to_type = to_type.substr(1)
+			shift_letters()
+		else:
+			$error_delay.start(0.5)
+
+func start_challenge() -> void:
+	to_type = "appledogcatpayattention"
+	set_up_letters()
+	set_process_input(true)
+
+func set_up_letters() -> void:
+	for i in range(len(to_type)):
+		var new_letter: Label = LETTER_LABEL.instantiate()
+		%letter_holder.add_child(new_letter)
+		new_letter.position = CENTER + Vector2(i * LETTER_LENGTH, 0)
+		new_letter.text = to_type.substr(i, 1)
+
+# Move all letters to the left one position and delete the front-most letter.
+func shift_letters() -> void:
+	# Move the first label to be a child of the tree so that it is no longer detected
+	# by this script.
+	var letter_to_remove: Label = %letter_holder.get_child(0)
+	letter_to_remove.get_parent().remove_child(letter_to_remove)
+	get_tree().get_root().add_child(letter_to_remove)
+	letter_to_remove.position = CENTER
+	
+	# Move the first letter down to the rocket
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(letter_to_remove, "position:y", 200, ANIM_LENGTH)
+	tween.parallel().tween_property(letter_to_remove, "scale", Vector2(), ANIM_LENGTH)
+	
+	# Shift all letters to the left.
+	for i in range(len(to_type)):
+		tween.parallel().tween_property(%letter_holder.get_child(i), "position:x", 
+		CENTER.x + LETTER_LENGTH * i, ANIM_LENGTH)
+	
+	await tween.finished
+	%player.shake()
+	
+	letter_to_remove.queue_free()

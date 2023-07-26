@@ -1,0 +1,91 @@
+[gd_scene load_steps=12 format=3 uid="uid://jayx3e6gm7cf"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_87j1t"]
+[ext_resource type="Texture2D" uid="uid://dlm4mkbs4ahs5" path="res://sprites/spaceship.png" id="2_fx7ny"]
+[ext_resource type="Texture2D" uid="uid://btju0fq8kqjo4" path="res://sprites/circle.png" id="3_auxy0"]
+
+[sub_resource type="Gradient" id="Gradient_xitfq"]
+offsets = PackedFloat32Array(0, 0.0738916, 0.26601, 0.458128, 0.596059, 0.748768, 1)
+colors = PackedColorArray(0.917647, 0.380392, 0.615686, 1, 0.560784, 0.239216, 0.654902, 1, 0.709804, 0.254902, 0.192157, 1, 0.768627, 0.396078, 0.109804, 1, 0.952941, 0.760784, 0.12549, 1, 0.756863, 0.898039, 0.917647, 1, 0.0980392, 0.0941176, 0.164706, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_e2cnn"]
+gradient = SubResource("Gradient_xitfq")
+
+[sub_resource type="Curve" id="Curve_5ojhy"]
+_data = [Vector2(0.0566802, 0.16726), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fkjua"]
+curve = SubResource("Curve_5ojhy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m5af1"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 15.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 105.0
+initial_velocity_max = 200.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_min = -2.0
+linear_accel_max = -1.0
+scale_min = 0.25
+scale_curve = SubResource("CurveTexture_fkjua")
+color_ramp = SubResource("GradientTexture1D_e2cnn")
+
+[sub_resource type="Animation" id="Animation_r0h1u"]
+resource_name = "jingle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-1.5708, -1.74533, -1.48353, -1.6057, -1.5708]
+}
+
+[sub_resource type="Animation" id="Animation_q8s1k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.5708]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tslam"]
+_data = {
+"RESET": SubResource("Animation_q8s1k"),
+"jingle": SubResource("Animation_r0h1u")
+}
+
+[node name="player" type="Node2D"]
+rotation = -1.5708
+script = ExtResource("1_87j1t")
+
+[node name="engine_particles" type="GPUParticles2D" parent="."]
+position = Vector2(-13, 0)
+emitting = false
+amount = 128
+process_material = SubResource("ParticleProcessMaterial_m5af1")
+texture = ExtResource("3_auxy0")
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_fx7ny")
+
+[node name="animation_player" type="AnimationPlayer" parent="."]
+speed_scale = 5.0
+libraries = {
+"": SubResource("AnimationLibrary_tslam")
+}
